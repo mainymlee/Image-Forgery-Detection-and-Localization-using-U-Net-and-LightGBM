@@ -158,11 +158,11 @@ Classify images based on forgery localization characteristics extracted from Sta
 
 #### Input Image
 
-![Input Image](images/compostie_images_sample.jpg)
+![Input Image](images/composite_image_sample.png)
 
 #### Predicted Heatmap
 
-![Heatmap](images/heatmap_sample.jpg)
+![Heatmap](images/heatmap_sample.png)
 
 #### Interpretation
 
