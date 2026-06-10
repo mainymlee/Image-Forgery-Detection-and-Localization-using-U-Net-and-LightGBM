@@ -216,3 +216,32 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ===== Forensic Project =====
+
+# Datasets
+data/
+*.csv
+
+# Images
+*.jpg
+*.jpeg
+*.png
+
+# Heatmaps
+heatmaps/
+
+# Model Checkpoints
+checkpoints/
+*.pth
+*.pt
+*.pkl
+
+# Results
+results/
+
+# Google Colab
+/content/
+
+# macOS
+.DS_Store
