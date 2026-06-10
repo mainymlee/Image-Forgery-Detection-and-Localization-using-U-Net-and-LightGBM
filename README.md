@@ -147,14 +147,26 @@ Classify images based on forgery localization characteristics extracted from Sta
 
 ## Results
 
-| Metric    | Score |
-| --------- | ----- |
-| Accuracy  | TBD   |
-| Precision | TBD   |
-| Recall    | TBD   |
-| F1 Score  | TBD   |
+| Metric | Score |
+|----------|----------|
+| Accuracy | TBD |
+| Precision | TBD |
+| Recall | TBD |
+| F1 Score | TBD |
 
-> Replace TBD with actual evaluation results after training.
+### Example Result
+
+#### Input Image
+
+![Input Image](images/input_example.jpg)
+
+#### Predicted Heatmap
+
+![Heatmap](images/heatmap_example.jpg)
+
+#### Interpretation
+
+The U-Net++ model highlights manipulated regions through a localization heatmap, which is subsequently used by the LightGBM classifier for final forgery detection.
 
 ---
 
