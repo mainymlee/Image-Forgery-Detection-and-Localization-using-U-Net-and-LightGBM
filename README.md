@@ -1,79 +1,145 @@
-# Image Forgery Localization
+# Image Forgery Detection and Localization
 
-## Project Overview
+## Overview
 
-This project aims to localize manipulated regions in composite images using deep learning-based semantic segmentation.
+This project aims to detect manipulated images and localize forged regions using a two-stage framework.
 
-Unlike conventional image classification models that only determine whether an image is manipulated, this project focuses on identifying the exact forged region at the pixel level.
-
----
-
-## Model Architecture
-
-### Stage 1: Forgery Localization
-
-- Model: U-Net++
-- Encoder: EfficientNet-B4
-- Pretrained Weights: ImageNet
-- Input Size: 512 × 512
-
-### Loss Function
-
-- Binary Cross Entropy (BCE)
-- Dice Loss
-
-### Optimizer
-
-- AdamW
+The system first identifies suspicious regions through a U-Net-based segmentation model and then performs final forgery classification using a LightGBM classifier.
 
 ---
 
-## Training Strategy
+## Project Structure
 
-### Validation
+```text
+forensic_project/
 
-- Group-based Hold-out Validation
+├── step00_setup.py
+├── step01_data_prep.py
+├── step02_train_stage1.py
+├── step03_heatmap_features.py
+├── step04_train_stage2.py
+├── step05_evaluate.py
+├── utils.py
 
-### Warm-up Training
+├── data/
+│   └── dataset.csv
 
-- Encoder Frozen
-- Decoder Training Only
+├── checkpoints/
+│   ├── run0_best.pth
+│   └── run1_best.pth
 
-### Fine-tuning
+└── results/
+```
 
-- Encoder Unfrozen
-- Differential Learning Rate
+## Dataset
 
-### Early Stopping
+### DEFACTO Dataset
+Synthetic image dataset used for forgery localization.
 
-- Patience = 10
+### COCO Dataset
+Authentic image dataset used as negative samples.
+
+### Data Distribution
+
+- Total Images: 30,000
+- Train: 70%
+- Validation: 20%
+- Test: 10%
+- Real : Fake = 1 : 1
 
 ---
 
-## Key Improvements (v2)
+## Methodology
 
-- U-Net → U-Net++
-- Input Resolution: 256 → 512
-- Positive Pixel Weight: 2.0 → 4.0
-- Improved localization of small manipulated regions
+### Stage 1: Forgery Localization (U-Net)
+
+The first stage predicts manipulated regions at the pixel level.
+
+Outputs:
+
+- Forgery Mask
+- Localization Heatmap
+
+Objective:
+
+Learn where image manipulation occurs rather than only determining whether manipulation exists.
+
+### Stage 2: Forgery Classification (LightGBM)
+
+The second stage utilizes localization information generated from Stage 1.
+
+Input Features:
+
+- Heatmap Statistics
+- Localization Features
+
+Output:
+
+- Real Image
+- Forged Image
 
 ---
 
-## Evaluation Metrics
+## Pipeline
 
-- IoU (Intersection over Union)
-- Dice Score
-- Precision
-- Recall
-- False Positive Area Ratio
+Data Preparation
+↓
+U-Net Training
+↓
+Heatmap Generation
+↓
+Feature Extraction
+↓
+LightGBM Training
+↓
+Final Evaluation
 
 ---
 
-## Tech Stack
+## Key Features
+
+- U-Net based forgery localization
+- Pixel-level manipulation detection
+- Heatmap generation
+- Feature extraction
+- LightGBM classification
+- Group leakage prevention
+- Stratified Group K-Fold validation
+- Confusion Matrix visualization
+
+---
+
+## Technologies
 
 - Python
 - PyTorch
-- segmentation-models-pytorch
+- U-Net
+- LightGBM
 - OpenCV
+- Albumentations
 - NumPy
 - Pandas
+- Scikit-Learn
+- Matplotlib
+
+---
+
+## My Contribution
+
+### Stage 1 Development
+
+- Data preprocessing pipeline
+- U-Net training pipeline implementation
+- Forgery mask generation
+- Heatmap generation
+- Localization feature extraction
+- Model evaluation and visualization
+
+---
+
+## Future Work
+
+- U-Net++ architecture exploration
+- Attention-based localization models
+- Explainable AI (XAI) integration
+- Real-world image forgery benchmark evaluation
