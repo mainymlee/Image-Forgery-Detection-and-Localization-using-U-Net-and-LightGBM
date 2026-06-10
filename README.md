@@ -1,10 +1,37 @@
-# Image Forgery Detection and Localization
+# Two-Stage Image Forgery Detection using U-Net++ and LightGBM
 
 ## Overview
 
-This project aims to detect manipulated images and localize forged regions using a two-stage framework.
+This project aims to detect manipulated images and localize forged regions using a two-stage deep learning framework.
 
-The system first identifies suspicious regions through a U-Net-based segmentation model and then performs final forgery classification using a LightGBM classifier.
+The system first identifies suspicious regions through a U-Net++ segmentation model and then performs final forgery classification using a LightGBM classifier.
+
+The objective is not only to determine whether an image is forged, but also to explain where the manipulation has occurred.
+
+---
+
+## Pipeline
+
+```text
+Input Image
+      │
+      ▼
+U-Net++
+(Forgery Localization)
+      │
+      ▼
+Heatmap Generation
+      │
+      ▼
+Feature Extraction
+      │
+      ▼
+LightGBM
+(Forgery Classification)
+      │
+      ▼
+Real / Forged
+```
 
 ---
 
@@ -31,115 +58,131 @@ forensic_project/
 └── results/
 ```
 
+---
+
 ## Dataset
 
 ### DEFACTO Dataset
+
 Synthetic image dataset used for forgery localization.
 
 ### COCO Dataset
+
 Authentic image dataset used as negative samples.
 
 ### Data Distribution
 
-- Total Images: 30,000
-- Train: 70%
-- Validation: 20%
-- Test: 10%
-- Real : Fake = 1 : 1
+* Total Images: 30,000
+* Real Images: 15,000
+* Forged Images: 15,000
+* Real : Fake = 1 : 1
 
 ---
 
 ## Methodology
 
-### Stage 1: Forgery Localization (U-Net)
+### Stage 1: Forgery Localization (U-Net++)
 
 The first stage predicts manipulated regions at the pixel level.
 
-Outputs:
+#### Outputs
 
-- Forgery Mask
-- Localization Heatmap
+* Forgery Mask
+* Localization Heatmap
 
-Objective:
+#### Objective
 
 Learn where image manipulation occurs rather than only determining whether manipulation exists.
+
+---
 
 ### Stage 2: Forgery Classification (LightGBM)
 
 The second stage utilizes localization information generated from Stage 1.
 
-Input Features:
+#### Input Features
 
-- Heatmap Statistics
-- Localization Features
+* Heatmap Statistics
+* Localization Features
 
-Output:
+#### Outputs
 
-- Real Image
-- Forged Image
+* Real Image
+* Forged Image
 
----
+#### Objective
 
-## Pipeline
-
-Data Preparation
-↓
-U-Net Training
-↓
-Heatmap Generation
-↓
-Feature Extraction
-↓
-LightGBM Training
-↓
-Final Evaluation
+Classify images based on forgery localization characteristics extracted from Stage 1.
 
 ---
 
 ## Key Features
 
-- U-Net based forgery localization
-- Pixel-level manipulation detection
-- Heatmap generation
-- Feature extraction
-- LightGBM classification
-- Group leakage prevention
-- Stratified Group K-Fold validation
-- Confusion Matrix visualization
+* U-Net++ based forgery localization
+* Pixel-level manipulation detection
+* Heatmap generation
+* Feature extraction
+* LightGBM classification
+* Group leakage prevention
+* Group-aware validation strategy
+* Confusion Matrix visualization
+* Two-stage detection framework
 
 ---
 
 ## Technologies
 
-- Python
-- PyTorch
-- U-Net
-- LightGBM
-- OpenCV
-- Albumentations
-- NumPy
-- Pandas
-- Scikit-Learn
-- Matplotlib
+* Python
+* PyTorch
+* U-Net++
+* LightGBM
+* OpenCV
+* Albumentations
+* NumPy
+* Pandas
+* Scikit-Learn
+* Matplotlib
+
+---
+
+## Results
+
+| Metric    | Score |
+| --------- | ----- |
+| Accuracy  | TBD   |
+| Precision | TBD   |
+| Recall    | TBD   |
+| F1 Score  | TBD   |
+
+> Replace TBD with actual evaluation results after training.
 
 ---
 
 ## My Contribution
 
-### Stage 1 Development
+As the Stage 1 developer, I was responsible for:
 
-- Data preprocessing pipeline
-- U-Net training pipeline implementation
-- Forgery mask generation
-- Heatmap generation
-- Localization feature extraction
-- Model evaluation and visualization
+* Dataset preprocessing
+* U-Net++ model training
+* Forgery mask generation
+* Heatmap generation
+* Localization feature extraction
+* Model evaluation
+* Visualization and analysis
+* Training pipeline implementation
 
 ---
 
 ## Future Work
 
-- U-Net++ architecture exploration
-- Attention-based localization models
-- Explainable AI (XAI) integration
-- Real-world image forgery benchmark evaluation
+* Advanced U-Net++ optimization
+* Attention-based localization networks
+* Explainable AI (XAI) integration
+* Real-world image forgery benchmark evaluation
+* Cross-dataset generalization experiments
+
+---
+
+## License
+
+This project is developed for academic and research purposes.
